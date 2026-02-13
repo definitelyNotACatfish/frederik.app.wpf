@@ -62,7 +62,7 @@ namespace frederik.app.wpf.Models
                 if (cancellationToken.IsCancellationRequested)
                 { throw new TaskCanceledException(); }
 
-                Wafer wafer = await cassette.GetWafer();
+                Wafer wafer = await cassette.GetNextWafer();
                 CurrentWafer = wafer;
             }
             catch (Exception ex)

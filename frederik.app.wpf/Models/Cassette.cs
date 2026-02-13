@@ -10,9 +10,9 @@ namespace frederik.app.wpf.Models
         // Given by task that the maximum is 25
         public const int MAX_WAFERS = 25;
 
-        public event EventHandler? WaferAddedEvent;
+        public event EventHandler<Wafer>? WaferAdded;
 
-        public event EventHandler<Wafer>? NextWaferEvent;
+        public event EventHandler<Wafer>? WaferRemoved;
 
         public List<Wafer> Wafers { get; private set; } = new List<Wafer>();
 
@@ -22,10 +22,10 @@ namespace frederik.app.wpf.Models
             { throw new CassetteFullException("Cassette contains already the max count of '{0}' wafers", MAX_WAFERS); }
         
             Wafers.Add(wafer);
-            WaferAddedEvent?.Invoke(this, new EventArgs());
+            WaferAdded?.Invoke(this, wafer);
         }
 
-        public async Task<Wafer> GetWafer()
+        public async Task<Wafer> GetNextWafer()
         {
             if (Wafers.Count == 0)
             { throw new CassetteFullException("Cassette contains already the max count of '{0}' wafers", MAX_WAFERS); }
@@ -34,21 +34,13 @@ namespace frederik.app.wpf.Models
             Wafer wafer = Wafers.First();
             Wafers.Remove(wafer);
 
-            NextWaferEvent?.Invoke(this, wafer);
+            WaferRemoved?.Invoke(this, wafer);
             return wafer;
         }
 
-        public async Task RemoveCassette()
+        public async Task Clear()
         {
             Wafers.Clear();
-        }
-
-        private void Init(int waferCount)
-        {
-            Wafers.Clear();
-
-            for (int i = 0; i < waferCount; i++)
-            { Wafers.Add(new Wafer()); }
         }
     }
 }

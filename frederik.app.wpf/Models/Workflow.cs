@@ -76,7 +76,7 @@ namespace frederik.app.wpf.Models
 
         private async Task Init()
         {
-            await LoadPort1.LoadCassette(10);
+            await LoadPort1.LoadCassette(Random.Shared.Next(1,25));
             await LoadPort2.UnloadCassette();
             await RobotArm.InitArm(StationA);
 

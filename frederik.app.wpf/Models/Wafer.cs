@@ -5,5 +5,11 @@
     /// </summary>
     public class Wafer
     {
+        public Wafer(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; } = string.Empty;
     }
 }

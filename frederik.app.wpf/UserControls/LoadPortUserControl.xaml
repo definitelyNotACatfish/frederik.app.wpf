@@ -7,18 +7,18 @@
              xmlns:m ="clr-namespace:frederik.app.wpf.Models"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=local:LoadPortUserControl}">
-    <Grid Background="Transparent" VerticalAlignment="Center">
+    <Grid Background="Transparent" VerticalAlignment="Center" Width="200">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="300"/>
+            <RowDefinition MinHeight="500"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Title}" Grid.Row="0" HorizontalAlignment="Center"/>
-        <ListView ItemsSource="{Binding LoadPort.Cassette.Wafers, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+        <ListView ItemsSource="{Binding LoadPortViewModel.Wafers, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                   Grid.Row="1" BorderBrush="Black" BorderThickness="1">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type m:Wafer}">
                         <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Background="AliceBlue" Text="Wafer" TextAlignment="Center" Width="160"/>
+                            <TextBlock Background="AliceBlue" Text="{Binding Name}" TextAlignment="Center" Width="160"/>
                         </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>

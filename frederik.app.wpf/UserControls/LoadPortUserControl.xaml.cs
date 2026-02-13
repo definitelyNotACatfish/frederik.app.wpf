@@ -1,4 +1,5 @@
 ﻿using frederik.app.wpf.Models;
+using frederik.app.wpf.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,12 +18,12 @@ namespace frederik.app.wpf.UserControls
 
         public string Title { get; set; } = "LoadPort";
 
-        public static readonly DependencyProperty LoadPortProperty = DependencyProperty.Register(nameof(LoadPort), typeof(LoadPort), typeof(LoadPortUserControl), new PropertyMetadata(default(LoadPort)));
+        public static readonly DependencyProperty LoadPortViewModelProperty = DependencyProperty.Register(nameof(LoadPortViewModel), typeof(LoadPortViewModel), typeof(LoadPortUserControl));
 
-        public LoadPort LoadPort
+        public LoadPortViewModel LoadPortViewModel
         {
-            get { return (LoadPort)GetValue(LoadPortProperty); }
-            set { SetValue(LoadPortProperty, value); }
+            get { return (LoadPortViewModel)GetValue(LoadPortViewModelProperty); }
+            set { SetValue(LoadPortViewModelProperty, value); }
         }
     }
 }

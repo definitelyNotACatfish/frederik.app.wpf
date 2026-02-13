@@ -18,21 +18,8 @@ namespace frederik.app.wpf.ViewModels
             _workflow.IsProcessingEvent -= StartProcessingEvent;
             _workflow.IsProcessingEvent += StartProcessingEvent;
 
-            _workflow.LoadPort1.Changed -= LoadPort1_Changed;
-            _workflow.LoadPort1.Changed += LoadPort1_Changed;
-
-            _workflow.LoadPort2.Changed -= LoadPort2_Changed;
-            _workflow.LoadPort2.Changed += LoadPort2_Changed;
-        }
-
-        private void LoadPort1_Changed(object? sender, EventArgs e)
-        {
-            LoadPort1 = ((LoadPort)sender);
-        }
-
-        private void LoadPort2_Changed(object? sender, EventArgs e)
-        {
-            LoadPort2 = (LoadPort)sender;
+            _loadPortViewModel1 = new LoadPortViewModel(_workflow.LoadPort1);
+            _loadPortViewModel2 = new LoadPortViewModel(_workflow.LoadPort2);
         }
 
         private void StartProcessingEvent(object? sender, bool e) => IsProcessing = e;
@@ -67,32 +54,35 @@ namespace frederik.app.wpf.ViewModels
             }
         }
 
-        private LoadPort _loadPort1 = new LoadPort();
-        public LoadPort LoadPort1
+        private LoadPortViewModel _loadPortViewModel1;
+        public LoadPortViewModel LoadPortViewModel1
         {
             get
             {
-                return _loadPort1;
+                return _loadPortViewModel1;
             }
             set
             {
-                if (_loadPort1 != value)
+                if (_loadPortViewModel1 != value)
                 {
-                    _loadPort1 = value;
+                    _loadPortViewModel1 = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private LoadPort _loadPort2 = new LoadPort();
-        public LoadPort LoadPort2
+        private LoadPortViewModel _loadPortViewModel2;
+        public LoadPortViewModel LoadPortViewModel2
         {
-            get => _loadPort2;
+            get
+            {
+                return _loadPortViewModel2;
+            }
             set
             {
-                if (_loadPort2 != value)
+                if (_loadPortViewModel2 != value)
                 {
-                    _loadPort2 = value;
+                    _loadPortViewModel2 = value;
                     OnPropertyChanged();
                 }
             }
