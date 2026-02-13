@@ -10,7 +10,7 @@ Tried to split everything into small classes and make it reusable as possible
 ## Considerations
  - No branches in GIT, I just merge everything in master, as I'm creator and reviewer
  - No worker is inserting the cassette with wafers, for simplicity now it's just there
- - I assume always 25 wafers per cassette, but can be edited in code
+ - I assume always 10 wafers per cassette, but can be edited in code
  - Exceptions are caught but not further handled
  - No stop button requested
  - Using flat hirachy in project
