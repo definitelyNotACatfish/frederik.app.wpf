@@ -1,6 +1,6 @@
 ﻿namespace frederik.app.wpf.Enums
 {
-    internal class WorkflowState : IEquatable<WorkflowState>
+    public class WorkflowState
     {
         public WorkflowState(string name, int id)
         {

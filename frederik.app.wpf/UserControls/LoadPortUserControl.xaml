@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="frederik.app.wpf.UserControls.LoadPortUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:frederik.app.wpf.UserControls"
+             xmlns:m ="clr-namespace:frederik.app.wpf.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="80"
+            d:DataContext="{d:DesignInstance Type=local:LoadPortUserControl}">
+    <Grid Background="Transparent" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="300"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Title}" Grid.Row="0" HorizontalAlignment="Center"/>
+        <ListView ItemsSource="{Binding LoadPort.Cassette.Wafers, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type m:Wafer}">
+                    <Border BorderThickness="1">
+                        <TextBlock Background="AliceBlue"/>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

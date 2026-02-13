@@ -2,7 +2,7 @@
 
 namespace frederik.app.wpf.Models
 {
-    internal class RobotArm
+    public class RobotArm
     {
         public Wafer? CurrentWafer { get; private set; }
 
@@ -62,7 +62,7 @@ namespace frederik.app.wpf.Models
                 if (cancellationToken.IsCancellationRequested)
                 { throw new TaskCanceledException(); }
 
-                Wafer wafer = await cassette.GetNextWafer();
+                Wafer wafer = await cassette.GetWafer();
                 CurrentWafer = wafer;
             }
             catch (Exception ex)

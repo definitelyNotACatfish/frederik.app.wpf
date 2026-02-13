@@ -1,31 +1,31 @@
 ﻿namespace frederik.app.wpf.Models
 {
-    internal class LoadPort
+    public class LoadPort
     {
         /// <summary>
         /// Contains the loadport a cassette with wafers
         /// </summary>
-        public bool CassetteInserted => Cassette is not null;
+        public bool CassetteInserted { get; private set; }
 
-        public Cassette? Cassette { get; private set; }
+        public Cassette Cassette { get; private set; } = new Cassette();
 
-        /// <summary>
-        /// Load a cassette into the machine
-        /// </summary>
-        /// <returns></returns>
-        public async Task LoadCassette()
-        { 
-            Cassette = new Cassette(25);
+        public event EventHandler? Changed;
+
+        public async Task LoadCassette(int waferCount)
+        {
+            for (int i = 0; i < waferCount; i++) 
+            {
+                await Cassette.AddWafer(new Wafer());
+            }
+            CassetteInserted = true;
+            Changed?.Invoke(this, new EventArgs());
         }
 
-
-        /// <summary>
-        /// Allow unloading a cassette if needed
-        /// </summary>
-        /// <returns></returns>
         public async Task UnloadCassette()
         {
-            Cassette = null;
+            await Cassette.RemoveCassette();
+            CassetteInserted = false;
+            Changed?.Invoke(this, new EventArgs());
         }
     }
 }

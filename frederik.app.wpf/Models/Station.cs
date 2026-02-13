@@ -1,6 +1,6 @@
 ﻿namespace frederik.app.wpf.Models
 {
-    internal class Station
+    public class Station
     {
         public bool Occupied { get; private set; }
 

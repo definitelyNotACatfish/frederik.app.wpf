@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:frederik.app.wpf"
+        xmlns:uc="clr-namespace:frederik.app.wpf.UserControls"
+        xmlns:vm="clr-namespace:frederik.app.wpf.ViewModels"
+        xmlns:conv="clr-namespace:frederik.app.wpf.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Wafer Handling System" Height="600" Width="1100"
+        Icon="/Icons/wafer.ico"
+        d:DataContext="{d:DesignInstance vm:WorkflowViewModel}">
+    <Window.Resources>
+        <conv:InvertBoolConverter x:Key="InvertBoolConverter"/>
+    </Window.Resources>
+    <Grid Margin="10 10 10 10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="200"/>
+            <ColumnDefinition MinWidth="400"/>
+            <ColumnDefinition MinWidth="200"/>
+            <ColumnDefinition MinWidth="250"/>
+        </Grid.ColumnDefinitions>
+        <uc:LoadPortUserControl Grid.Column="0" Title="Load Port 1" LoadPort="{Binding LoadPort1, UpdateSourceTrigger=PropertyChanged}"/>
 
+        <uc:LoadPortUserControl Grid.Column="2" Title="Load Port 2" LoadPort="{Binding LoadPort2, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Column="3" Height="50" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Start" Grid.Column="0" Margin="5" IsEnabled="{Binding IsProcessing, Converter={StaticResource InvertBoolConverter},UpdateSourceTrigger=PropertyChanged}" Command="{Binding StartProcessing}">
+                <TextBlock Text="Start" Background="Transparent" FontSize="20" VerticalAlignment="Center"/>
+            </Button>
+            <Button Name="Pause" Grid.Column="1" Margin="5" IsEnabled="{Binding IsProcessing}" Command="{Binding PauseProcessing,UpdateSourceTrigger=PropertyChanged}">
+                <TextBlock Text="Pause" Background="Transparent" FontSize="20" VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
     </Grid>
 </Window>

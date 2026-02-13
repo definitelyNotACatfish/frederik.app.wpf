@@ -3,7 +3,7 @@
     /// <summary>
     /// Empty for future use, if the wafer should contain any additional info, like status or so...
     /// </summary>
-    internal class Wafer
+    public class Wafer
     {
     }
 }

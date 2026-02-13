@@ -3,9 +3,11 @@ using frederik.app.wpf.Exceptions;
 
 namespace frederik.app.wpf.Models
 {
-    internal class Workflow
+    public class Workflow
     {
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        public event EventHandler<bool> IsProcessingEvent;
 
         public LoadPort LoadPort1 { get; private set; } = new LoadPort();
 
@@ -19,16 +21,18 @@ namespace frederik.app.wpf.Models
 
         public WorkflowState CurrentWorkflowState { get; private set; } = WorkflowState.Undefined;
 
-        public bool Proccessing { get; private set; }
+        public bool IsProcessing { get; private set; }
 
         public async Task Start()
         {
-            Proccessing = true;
+            IsProcessing = true;
+            IsProcessingEvent?.Invoke(this, true);
 
             try
             {
-                await Init();
-                await HandlingWafers();
+                await Init().ConfigureAwait(false);
+
+                //await HandlingWafers().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -36,7 +40,7 @@ namespace frederik.app.wpf.Models
             }
             finally
             {
-                Proccessing = false;
+                Finish();
             }
         }
 
@@ -44,13 +48,25 @@ namespace frederik.app.wpf.Models
         {
             try
             {
+                IsProcessing = true;
+                IsProcessingEvent?.Invoke(this, true);
                 _cancellationTokenSource = new CancellationTokenSource();
-                await HandlingWafers();
+                await HandlingWafers().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
 #warning TODO: handle exception
             }
+            finally
+            {
+               Finish();
+            }
+        }
+
+        private void Finish()
+        {
+            IsProcessing = false;
+            IsProcessingEvent?.Invoke(this, false);
         }
 
         public async Task Pause()
@@ -60,7 +76,7 @@ namespace frederik.app.wpf.Models
 
         private async Task Init()
         {
-            await LoadPort1.LoadCassette().ConfigureAwait(false);
+            await LoadPort1.LoadCassette(10).ConfigureAwait(false);
             await LoadPort2.UnloadCassette().ConfigureAwait(false);
             await RobotArm.InitArm(StationA).ConfigureAwait(false);
 
@@ -74,6 +90,9 @@ namespace frederik.app.wpf.Models
         {
             if(CurrentWorkflowState == WorkflowState.Undefined)
             { throw new WorkflowNotInitedException("Can't handle wafers, workflow is not inited"); }
+
+            if(LoadPort1.Cassette is null)
+            { throw new CassetteEmptyException("Cant handle wafers, cassete in load port 1 is empty"); }
 
             // Nothing is null, as the init is called first, else it must be handled of course
             foreach (Wafer wafer in LoadPort1.Cassette.Wafers.ToList())
