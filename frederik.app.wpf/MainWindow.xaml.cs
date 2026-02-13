@@ -12,8 +12,8 @@ namespace frederik.app.wpf
 
         public MainWindow()
         {
-            InitializeComponent();
             _viewModel = new WorkflowViewModel();
+            InitializeComponent();
             DataContext = _viewModel;
         }
     }

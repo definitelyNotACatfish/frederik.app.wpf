@@ -17,7 +17,7 @@ namespace frederik.app.wpf.UserControls
 
         public string Title { get; set; } = "LoadPort";
 
-        public static DependencyProperty LoadPortProperty = DependencyProperty.Register("LoadPort", typeof(LoadPort), typeof(LoadPortUserControl));
+        public static readonly DependencyProperty LoadPortProperty = DependencyProperty.Register(nameof(LoadPort), typeof(LoadPort), typeof(LoadPortUserControl), new PropertyMetadata(default(LoadPort)));
 
         public LoadPort LoadPort
         {

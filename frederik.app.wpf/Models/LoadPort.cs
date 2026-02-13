@@ -13,6 +13,7 @@
 
         public async Task LoadCassette(int waferCount)
         {
+            await Cassette.RemoveCassette();
             for (int i = 0; i < waferCount; i++) 
             {
                 await Cassette.AddWafer(new Wafer());

@@ -44,12 +44,12 @@ namespace frederik.app.wpf.ViewModels
 
         private async Task StartProccessing(object? parameters)
         {
-            await _workflow.Start(); 
+            await _workflow.Start().ConfigureAwait(false); 
         }
 
         private async Task PauseProccessing(object? parameters)
         {
-            await _workflow.Pause();
+            await _workflow.Pause().ConfigureAwait(false);
         }
 
 
@@ -70,7 +70,10 @@ namespace frederik.app.wpf.ViewModels
         private LoadPort _loadPort1 = new LoadPort();
         public LoadPort LoadPort1
         {
-            get => _loadPort1;
+            get
+            {
+                return _loadPort1;
+            }
             set
             {
                 if (_loadPort1 != value)

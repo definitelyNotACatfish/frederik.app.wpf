@@ -6,20 +6,20 @@
              xmlns:local="clr-namespace:frederik.app.wpf.UserControls"
              xmlns:m ="clr-namespace:frederik.app.wpf.Models"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="80"
-            d:DataContext="{d:DesignInstance Type=local:LoadPortUserControl}">
+             d:DataContext="{d:DesignInstance Type=local:LoadPortUserControl}">
     <Grid Background="Transparent" VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="300"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Title}" Grid.Row="0" HorizontalAlignment="Center"/>
-        <ListView ItemsSource="{Binding LoadPort.Cassette.Wafers, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+        <ListView ItemsSource="{Binding LoadPort.Cassette.Wafers, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                  Grid.Row="1" BorderBrush="Black" BorderThickness="1">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type m:Wafer}">
-                    <Border BorderThickness="1">
-                        <TextBlock Background="AliceBlue"/>
-                    </Border>
+                        <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Background="AliceBlue" Text="Wafer" TextAlignment="Center" Width="160"/>
+                        </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

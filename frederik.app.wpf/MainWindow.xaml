@@ -21,9 +21,9 @@
             <ColumnDefinition MinWidth="200"/>
             <ColumnDefinition MinWidth="250"/>
         </Grid.ColumnDefinitions>
-        <uc:LoadPortUserControl Grid.Column="0" Title="Load Port 1" LoadPort="{Binding LoadPort1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <uc:LoadPortUserControl Grid.Column="0" Title="Load Port 1" LoadPort="{Binding DataContext.LoadPort1, RelativeSource={RelativeSource AncestorType=local:MainWindow}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <uc:LoadPortUserControl Grid.Column="2" Title="Load Port 2" LoadPort="{Binding LoadPort2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <uc:LoadPortUserControl Grid.Column="2" Title="Load Port 2" LoadPort="{Binding DataContext.LoadPort2, RelativeSource={RelativeSource AncestorType=local:MainWindow}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Column="3" Height="50" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

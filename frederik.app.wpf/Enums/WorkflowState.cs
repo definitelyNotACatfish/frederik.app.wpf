@@ -21,7 +21,8 @@
             RobotArmRotatedFromA2B,
             RobotArmRotatingFromB2A,
             LoadedWaferFromCassetteOnArm,
-            UnloadedWaferFromArmIntoCassette
+            UnloadedWaferFromArmIntoCassette,
+            Done
         };
 
         public static WorkflowState Undefined => new WorkflowState("Undefined", 0);
@@ -39,6 +40,8 @@
         public static WorkflowState UnloadedWaferFromArmIntoCassette => new WorkflowState("UnloadedWaferFromArmIntoCassette", 6);
 
         public static WorkflowState Init => new WorkflowState("Init", 7);
+
+        public static WorkflowState Done => new WorkflowState("Done", 8);
 
 
         public override bool Equals(object? obj)
