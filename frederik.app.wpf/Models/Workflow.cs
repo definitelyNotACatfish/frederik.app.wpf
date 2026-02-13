@@ -32,7 +32,7 @@ namespace frederik.app.wpf.Models
             {
                 await Init().ConfigureAwait(false);
 
-                //await HandlingWafers().ConfigureAwait(false);
+                await HandlingWafers().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

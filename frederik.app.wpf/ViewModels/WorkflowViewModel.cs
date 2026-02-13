@@ -36,7 +36,7 @@ namespace frederik.app.wpf.ViewModels
         }
 
         private void StartProcessingEvent(object? sender, bool e) => IsProcessing = e;
-        
+
 
         public ICommand StartProcessing { get; }
 
@@ -44,7 +44,7 @@ namespace frederik.app.wpf.ViewModels
 
         private async Task StartProccessing(object? parameters)
         {
-            await _workflow.Start();
+            await _workflow.Start(); 
         }
 
         private async Task PauseProccessing(object? parameters)
