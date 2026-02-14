@@ -5,17 +5,19 @@ namespace frederik.app.wpf.Models
 {
     public class Workflow
     {
+        private bool _pausePressed = false;
+
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        public event EventHandler<bool> IsProcessingEvent;
+        public event EventHandler<bool>? IsProcessingEvent;
 
         public LoadPort LoadPort1 { get; private set; } = new LoadPort();
 
         public LoadPort LoadPort2 { get; private set; } = new LoadPort();
 
-        public Station StationA { get; private set; } = new Station("StationA");
+        public Station StationA { get; private set; } = new Station("Station A");
 
-        public Station StationB { get; private set; } = new Station("StationB");
+        public Station StationB { get; private set; } = new Station("Station B");
 
         public RobotArm RobotArm { get; private set; } = new RobotArm();
 
@@ -25,12 +27,22 @@ namespace frederik.app.wpf.Models
 
         public async Task Start()
         {
+            if (_pausePressed)
+            {
+                _pausePressed = false;
+                await Continue();
+                return;
+            }
+
             IsProcessing = true;
-            IsProcessingEvent?.Invoke(this, true);
+            IsProcessingEvent?.Invoke(this, IsProcessing);
 
             try
             {
                 await Init();
+
+                // Give it some time, that the demo looks better
+                await Task.Delay(1000);
 
                 await HandlingWafers();
             }
@@ -49,7 +61,7 @@ namespace frederik.app.wpf.Models
             try
             {
                 IsProcessing = true;
-                IsProcessingEvent?.Invoke(this, true);
+                IsProcessingEvent?.Invoke(this, IsProcessing);
                 _cancellationTokenSource = new CancellationTokenSource();
                 await HandlingWafers();
             }
@@ -66,17 +78,18 @@ namespace frederik.app.wpf.Models
         private void Finish()
         {
             IsProcessing = false;
-            IsProcessingEvent?.Invoke(this, false);
+            IsProcessingEvent?.Invoke(this, IsProcessing);
         }
 
         public async Task Pause()
         {
             _cancellationTokenSource.Cancel();
+            _pausePressed = true;
         }
 
         private async Task Init()
         {
-            await LoadPort1.LoadCassette(Random.Shared.Next(1,25));
+            await LoadPort1.LoadCassette(Random.Shared.Next(1, 25));
             await LoadPort2.UnloadCassette();
             await RobotArm.InitArm(StationA);
 
@@ -109,7 +122,7 @@ namespace frederik.app.wpf.Models
 
                     if (CurrentWorkflowState.Equals(WorkflowState.LoadedWaferFromCassetteOnArm))
                     {
-                        await RobotArm.RotateArmFromToStation(StationA, StationB, _cancellationTokenSource.Token);
+                        await RobotArm.RotateArmToStation(StationB, _cancellationTokenSource.Token);
                         CurrentWorkflowState = WorkflowState.RobotArmRotatedFromA2B;
                     }
 
@@ -125,7 +138,7 @@ namespace frederik.app.wpf.Models
                         || CurrentWorkflowState.Equals(WorkflowState.RobotArmRotatingFromB2A))
                     {
                         CurrentWorkflowState = WorkflowState.RobotArmRotatingFromB2A;
-                        await RobotArm.RotateArmFromToStation(StationB, StationA, _cancellationTokenSource.Token);
+                        await RobotArm.RotateArmToStation(StationA, _cancellationTokenSource.Token);
                         CurrentWorkflowState = WorkflowState.RobotArmOnStationA;
                         CurrentWorkflowState = WorkflowState.Done;
                     }

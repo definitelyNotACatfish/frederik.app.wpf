@@ -4,6 +4,12 @@ namespace frederik.app.wpf.Models
 {
     public class RobotArm
     {
+        public event EventHandler<Wafer>? CurrentWaferChanged;
+
+        public event EventHandler<Station>? CurrentStationChanged;
+
+        public event EventHandler<bool>? ArmIsRotatingEvent;
+
         public Wafer? CurrentWafer { get; private set; }
 
         public Station? CurrentStation { get; private set; }
@@ -20,6 +26,7 @@ namespace frederik.app.wpf.Models
             {
                 CurrentStation = station;
                 await station.Occupy();
+                CurrentStationChanged?.Invoke(this, CurrentStation);
             }
             catch (Exception ex)
             {
@@ -28,22 +35,27 @@ namespace frederik.app.wpf.Models
             }
         }
 
-        public async Task RotateArmFromToStation(Station previous, Station newStation, CancellationToken cancellationToken = default)
+        public async Task RotateArmToStation(Station newStation, CancellationToken cancellationToken = default)
         {
             try
             {
                 if (cancellationToken.IsCancellationRequested)
                 { throw new TaskCanceledException(); }
 
-                await previous.DeOccupy();
+                await CurrentStation.DeOccupy();
+                CurrentStationChanged?.Invoke(this, CurrentStation);
 
                 IsArmRotating = true;
+                ArmIsRotatingEvent?.Invoke(this, IsArmRotating);
                 // Simulate the arm movement
                 await Task.Delay(TimeSpan.FromSeconds(2));
                 IsArmRotating = false;
+                ArmIsRotatingEvent?.Invoke(this, IsArmRotating);
+                await Task.Delay(TimeSpan.FromSeconds(2));
 
                 await newStation.Occupy();
                 CurrentStation = newStation;
+                CurrentStationChanged?.Invoke(this, CurrentStation);
             }
             catch (Exception ex)
             {
@@ -64,6 +76,7 @@ namespace frederik.app.wpf.Models
 
                 Wafer wafer = await cassette.GetNextWafer();
                 CurrentWafer = wafer;
+                CurrentWaferChanged?.Invoke(this, CurrentWafer);
             }
             catch (Exception ex)
             {
@@ -84,6 +97,7 @@ namespace frederik.app.wpf.Models
             {
                 await cassette.AddWafer(wafer);
                 CurrentWafer = null;
+                CurrentWaferChanged?.Invoke(this, CurrentWafer);
             }
             catch (Exception ex)
             {

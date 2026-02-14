@@ -15,25 +15,31 @@ namespace frederik.app.wpf.ViewModels
             foreach (var wafer in loadPort.Cassette.Wafers)
             { Wafers.Add(wafer); }
 
-            _loadPort.Cassette.WaferAdded -= Cassette_WaferAdded; 
-            _loadPort.Cassette.WaferAdded += Cassette_WaferAdded;
+            _loadPort.Cassette.WaferAdded -= CassetteWaferAdded; 
+            _loadPort.Cassette.WaferAdded += CassetteWaferAdded;
 
-            _loadPort.Cassette.WaferRemoved -= Cassette_WaferRemoved;
-            _loadPort.Cassette.WaferRemoved += Cassette_WaferRemoved;
+            _loadPort.Cassette.WaferRemoved -= CassetteWaferRemoved;
+            _loadPort.Cassette.WaferRemoved += CassetteWaferRemoved;
+
+            _loadPort.Cassette.WaferCleared -= CassetteWaferCleared;
+            _loadPort.Cassette.WaferCleared += CassetteWaferCleared;
         }
 
         public ObservableCollection<Wafer> Wafers { get; set; } = new ObservableCollection<Wafer>();
 
-        private void Cassette_WaferRemoved(object? sender, Wafer e)
+        private void CassetteWaferRemoved(object? sender, Wafer e)
         {
             Wafers.Remove(e);
         }
 
-        private void Cassette_WaferAdded(object? sender, Wafer e)
+        private void CassetteWaferAdded(object? sender, Wafer e)
         {
             Wafers.Add(e);
         }
 
-
+        private void CassetteWaferCleared(object? sender, EventArgs e)
+        {
+            Wafers.Clear();
+        }
     }
 }

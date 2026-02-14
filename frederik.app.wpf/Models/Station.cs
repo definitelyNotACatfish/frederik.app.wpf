@@ -2,6 +2,8 @@
 {
     public class Station
     {
+        public event EventHandler? Changed;
+
         public bool Occupied { get; private set; }
 
         public string Name { get; private set; }
@@ -18,7 +20,8 @@
         /// <returns></returns>
         public async Task Occupy()
         { 
-            await Task.Run(() => { Occupied = true; }); 
+            Occupied = true;
+            Changed?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
@@ -27,7 +30,8 @@
         /// <returns></returns>
         public async Task DeOccupy()
         {
-            await Task.Run(() => { Occupied = false; });
+            Occupied = false;
+            Changed?.Invoke(this, new EventArgs());
         }
     }
 }

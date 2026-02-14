@@ -14,6 +14,9 @@ namespace frederik.app.wpf.Models
 
         public event EventHandler<Wafer>? WaferRemoved;
 
+        public event EventHandler? WaferCleared;
+
+
         public List<Wafer> Wafers { get; private set; } = new List<Wafer>();
 
         public async Task AddWafer(Wafer wafer)
@@ -41,6 +44,7 @@ namespace frederik.app.wpf.Models
         public async Task Clear()
         {
             Wafers.Clear();
+            WaferCleared?.Invoke(this, new EventArgs());
         }
     }
 }

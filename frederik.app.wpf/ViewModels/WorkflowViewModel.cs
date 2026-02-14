@@ -20,14 +20,14 @@ namespace frederik.app.wpf.ViewModels
 
             _loadPortViewModel1 = new LoadPortViewModel(_workflow.LoadPort1);
             _loadPortViewModel2 = new LoadPortViewModel(_workflow.LoadPort2);
+            _robotArmViewModel = new RobotArmViewModel(_workflow.RobotArm, _workflow.StationA, _workflow.StationB);
         }
-
-        private void StartProcessingEvent(object? sender, bool e) => IsProcessing = e;
-
 
         public ICommand StartProcessing { get; }
 
         public ICommand PauseProcessing { get; }
+
+        private void StartProcessingEvent(object? sender, bool e) => IsProcessing = e;
 
         private async Task StartProccessing(object? parameters)
         {
@@ -88,43 +88,15 @@ namespace frederik.app.wpf.ViewModels
             }
         }
 
-        private RobotArm _robotArm = new RobotArm();
-        public RobotArm RobotArm
+        private RobotArmViewModel _robotArmViewModel;
+        public RobotArmViewModel RobotArmViewModel
         {
-            get => _robotArm;
+            get => _robotArmViewModel;
             set
             {
-                if (_robotArm != value)
+                if (_robotArmViewModel != value)
                 {
-                    _robotArm = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private Station _stationA = new Station("StationA");
-        public Station StationA
-        {
-            get => _stationA;
-            set
-            {
-                if (_stationA != value)
-                {
-                    _stationA = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private Station _stationB = new Station("StationB");
-        public Station StationB
-        {
-            get => _stationB;
-            set
-            {
-                if (_stationB != value)
-                {
-                    _stationB = value;
+                    _robotArmViewModel = value;
                     OnPropertyChanged();
                 }
             }
