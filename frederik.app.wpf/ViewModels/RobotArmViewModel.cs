@@ -13,12 +13,6 @@ namespace frederik.app.wpf.ViewModels
             _stationA = stationA;
             _stationB = stationB;
 
-            _stationA.Changed -= StationAChanged;
-            _stationA.Changed += StationAChanged;
-
-            _stationB.Changed -= StationBChanged;
-            _stationB.Changed += StationBChanged;
-
             _robotArm.CurrentWaferChanged -= RobotArmCurrentWaferChanged;
             _robotArm.CurrentWaferChanged += RobotArmCurrentWaferChanged;
 
@@ -36,22 +30,12 @@ namespace frederik.app.wpf.ViewModels
 
         private void RobotArmCurrentStationChanged(object? sender, Station e)
         {
-           
+            CurrentStation = e;
         }
 
         private void RobotArmCurrentWaferChanged(object? sender, Wafer e)
         {
             CurrentWafer = e;
-        }
-
-        private void StationBChanged(object? sender, EventArgs e)
-        {
-           
-        }
-
-        private void StationAChanged(object? sender, EventArgs e)
-        {
-            
         }
 
         private Wafer? _currentWafer;
@@ -77,6 +61,20 @@ namespace frederik.app.wpf.ViewModels
                 if (_isRotating != value)
                 {
                     _isRotating = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private Station _currentStation;
+        public Station CurrentStation
+        {
+            get => _currentStation;
+            set
+            {
+                if (_currentStation != value)
+                {
+                    _currentStation = value;
                     OnPropertyChanged();
                 }
             }

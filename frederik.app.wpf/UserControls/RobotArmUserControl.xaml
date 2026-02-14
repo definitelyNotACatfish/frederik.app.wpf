@@ -14,14 +14,23 @@
               />
         </StackPanel>
 
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding RobotArmViewModel.CurrentWafer.Name,Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                        VerticalAlignment="Center" Background="AliceBlue"/>
-            <TextBlock Text="Is Rotating"/>
-            <CheckBox IsEnabled="False" 
-              IsChecked="{Binding RobotArmViewModel.IsRotating, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-             />
-        </StackPanel>
+        <Grid Width="280">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Width="Auto" >
+                <TextBlock Text="{Binding RobotArmViewModel.CurrentWafer.Name,Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                            Background="AliceBlue"/>
+                <TextBlock></TextBlock>
+                <TextBlock Text="{Binding RobotArmViewModel.CurrentStation.Name,Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                            Background="AliceBlue"/>
+                <TextBlock Text="{Binding RobotArmViewModel.CurrentStation.Occupied,Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                            Background="AliceBlue"/>
+                <TextBlock></TextBlock>
+                <TextBlock Text="Is Rotating"/>
+                <CheckBox IsEnabled="False" 
+                      IsChecked="{Binding RobotArmViewModel.IsRotating, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                     /> 
+                
+            </StackPanel>
+        </Grid>
 
         <StackPanel DockPanel.Dock="Right"  VerticalAlignment="Center" HorizontalAlignment="Right">
             <TextBlock Text="{Binding RobotArmViewModel.StationB.Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
